@@ -22,7 +22,7 @@ class ComEventRow extends StatelessWidget {
   Widget build(BuildContext context) {
     DateFormat timeFormatter = DateFormat("h:mma");
     int currentDateTime = DateTime.now().millisecondsSinceEpoch;
-    DateTime eventStartDateTime = DateTime.fromMillisecondsSinceEpoch(event.startDateInMilliseconds);
+    DateTime eventStartDateTime = event.eventType == 'googleAdMob' ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(event.startDateInMilliseconds);
     bool isHappeningNow = false;
     if (event.endDateInMilliseconds != null) {
       isHappeningNow = (event.startDateInMilliseconds < currentDateTime && event.endDateInMilliseconds > currentDateTime) ? true : false;

@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -9,6 +10,7 @@ import 'package:webblen/services_general/service_page_transitions.dart';
 import 'package:webblen/services_general/services_show_alert.dart';
 import 'package:webblen/styles/flat_colors.dart';
 import 'package:webblen/styles/fonts.dart';
+import 'package:webblen/utils/strings.dart';
 import 'package:webblen/widgets_common/common_button.dart';
 import 'package:webblen/widgets_common/common_progress.dart';
 import 'package:webblen/widgets_event/event_row.dart';
@@ -43,6 +45,7 @@ class _EventFeedPageState extends State<EventFeedPage> with SingleTickerProvider
         setState(() {});
       } else {
         standardEvents = result.where((e) => e.eventType == 'standard').toList(growable: true);
+        //standardEvents.add(Event(eventType: 'googleAdMob'));
         foodDrinkEvents = result.where((e) => e.eventType == 'foodDrink').toList(growable: true);
         saleDiscountEvents = result.where((e) => e.eventType == 'saleDiscount').toList(growable: true);
         standardEvents.sort((eventA, eventB) => eventA.startDateInMilliseconds.compareTo(eventB.startDateInMilliseconds));
@@ -88,14 +91,27 @@ class _EventFeedPageState extends State<EventFeedPage> with SingleTickerProvider
         padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
         itemCount: standardEvents.length,
         itemBuilder: (context, index) {
-          return ComEventRow(
-              event: standardEvents[index],
-              showCommunity: true,
-              currentUser: widget.currentUser,
-              transitionToComAction: () => transitionToCommunityPage(standardEvents[index]),
-              shareEventAction: () => transitionToShareEventPage(standardEvents[index]),
-              eventPostAction: () => PageTransitionService(context: context, currentUser: widget.currentUser, event: standardEvents[index], eventIsLive: false)
-                  .transitionToEventPage());
+          return index == 0
+              ? Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.symmetric(vertical: 8.0),
+                  height: 58,
+                  //constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+                  width: 350,
+                  child: AdmobBanner(
+                    adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+                    adSize: AdmobBannerSize.BANNER,
+                  ),
+                )
+              : ComEventRow(
+                  event: standardEvents[index],
+                  showCommunity: true,
+                  currentUser: widget.currentUser,
+                  transitionToComAction: () => transitionToCommunityPage(standardEvents[index]),
+                  shareEventAction: () => transitionToShareEventPage(standardEvents[index]),
+                  eventPostAction: () =>
+                      PageTransitionService(context: context, currentUser: widget.currentUser, event: standardEvents[index], eventIsLive: false)
+                          .transitionToEventPage());
         },
       ),
     );
@@ -146,6 +162,7 @@ class _EventFeedPageState extends State<EventFeedPage> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
+    Admob.initialize(Strings.googleAdMobAppID);
     _tabController = new TabController(length: 3, vsync: this);
     _scrollController = ScrollController();
     //EventDataService().convertEventData();

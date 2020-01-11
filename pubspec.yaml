@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #Ad Mob
+  admob_flutter: ^0.3.4
+
   #Firestore Dependencies
   cloud_firestore: ^0.12.10
   firebase_storage: ^3.0.8
@@ -21,8 +24,7 @@ dependencies:
   #Social Dependencies
   google_sign_in: ^4.0.11
   flutter_facebook_login: ^3.0.0
-#  flutter_twitter_login:
-#      git: https://github.com/eudangeld/flutter_twitter_login.git
+
 
   #Location Dependencies
   location: ^2.3.5

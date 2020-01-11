@@ -4,4 +4,8 @@ class Strings {
   static final String twitterCONSUMERSECRET = "8nKtKawnraVuhYJVE0yAha153qeG01KgkiA0uw6HjbXIzIk5wm";
   static final String ethNetworkID = "c873a87ae50a4095ae3e3af99e42016f";
   static final String ethNetworkSecret = "1a2ba470d48d46cf9840cca6cbe38baa";
+  static final String googleAdMobAppID = "ca-app-pub-2136415475966451~5144610810";
+  static final String googleAdMobBannerID = "ca-app-pub-2136415475966451/4097002778";
+  static final String fbIOSAdPlacementID = "2508202352760176_2508204209426657";
+  static final String fbAndroidAdPlacementID = "2508202352760176_2508204209426657";
 }

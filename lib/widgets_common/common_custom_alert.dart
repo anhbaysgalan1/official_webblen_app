@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 // Examples can assume:
 // enum Department { treasury, state }
@@ -55,8 +56,7 @@ class Dialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets +
-          const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
       duration: insetAnimationDuration,
       curve: insetAnimationCurve,
       child: new MediaQuery.removeViewInsets(
@@ -227,9 +227,7 @@ class CustomAlertDialog extends StatelessWidget {
 
     if (title != null) {
       children.add(new Padding(
-        padding: titlePadding ??
-            new EdgeInsets.fromLTRB(
-                24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
+        padding: titlePadding ?? new EdgeInsets.fromLTRB(24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
         child: new DefaultTextStyle(
           style: Theme.of(context).textTheme.title,
           child: new Semantics(child: title, namesRoute: true),
@@ -237,13 +235,13 @@ class CustomAlertDialog extends StatelessWidget {
       ));
     } else {
       switch (defaultTargetPlatform) {
+        case TargetPlatform.macOS:
         case TargetPlatform.iOS:
           label = semanticLabel;
           break;
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
-          label = semanticLabel ??
-              MaterialLocalizations.of(context)?.alertDialogLabel;
+          label = semanticLabel ?? MaterialLocalizations.of(context)?.alertDialogLabel;
       }
     }
 
@@ -275,9 +273,7 @@ class CustomAlertDialog extends StatelessWidget {
       ),
     );
 
-    if (label != null)
-      dialogChild =
-      new Semantics(namesRoute: true, label: label, child: dialogChild);
+    if (label != null) dialogChild = new Semantics(namesRoute: true, label: label, child: dialogChild);
 
     return new Dialog(child: dialogChild);
   }
@@ -337,9 +333,7 @@ class SimpleDialogOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return new InkWell(
       onTap: onPressed,
-      child: new Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-          child: child),
+      child: new Padding(padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0), child: child),
     );
   }
 }
@@ -491,22 +485,22 @@ class SimpleDialog extends StatelessWidget {
           )));
     } else {
       switch (defaultTargetPlatform) {
+        case TargetPlatform.macOS:
         case TargetPlatform.iOS:
           label = semanticLabel;
           break;
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
-          label =
-              semanticLabel ?? MaterialLocalizations.of(context)?.dialogLabel;
+          label = semanticLabel ?? MaterialLocalizations.of(context)?.dialogLabel;
       }
     }
 
     if (children != null) {
       body.add(new Flexible(
           child: new SingleChildScrollView(
-            padding: contentPadding,
-            child: new ListBody(children: children),
-          )));
+        padding: contentPadding,
+        child: new ListBody(children: children),
+      )));
     }
 
     Widget dialogChild = new IntrinsicWidth(
@@ -559,8 +553,7 @@ class _DialogRoute<T> extends PopupRoute<T> {
   final String barrierLabel;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     return new SafeArea(
       child: new Builder(builder: (BuildContext context) {
         final Widget annotatedChild = new Semantics(
@@ -568,19 +561,14 @@ class _DialogRoute<T> extends PopupRoute<T> {
           scopesRoute: true,
           explicitChildNodes: true,
         );
-        return theme != null
-            ? new Theme(data: theme, child: annotatedChild)
-            : annotatedChild;
+        return theme != null ? new Theme(data: theme, child: annotatedChild) : annotatedChild;
       }),
     );
   }
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return new FadeTransition(
-        opacity: new CurvedAnimation(parent: animation, curve: Curves.easeOut),
-        child: child);
+  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    return new FadeTransition(opacity: new CurvedAnimation(parent: animation, curve: Curves.easeOut), child: child);
   }
 }
 
@@ -614,13 +602,12 @@ class _DialogRoute<T> extends PopupRoute<T> {
 ///  * <https://material.google.com/components/dialogs.html>
 Future<T> customShowDialog<T>({
   @required
-  BuildContext context,
+      BuildContext context,
   bool barrierDismissible: true,
-  @Deprecated(
-      'Instead of using the "child" argument, return the child from a closure '
-          'provided to the "builder" argument. This will ensure that the BuildContext '
-          'is appropriate for widgets built in the dialog.')
-  Widget child,
+  @Deprecated('Instead of using the "child" argument, return the child from a closure '
+      'provided to the "builder" argument. This will ensure that the BuildContext '
+      'is appropriate for widgets built in the dialog.')
+      Widget child,
   WidgetBuilder builder,
 }) {
   assert(child == null || builder == null);
@@ -628,9 +615,6 @@ Future<T> customShowDialog<T>({
     child: child ?? new Builder(builder: builder),
     theme: Theme.of(context, shadowThemeOnly: true),
     barrierDismissible: barrierDismissible,
-    barrierLabel:
-    MaterialLocalizations
-        .of(context)
-        .modalBarrierDismissLabel,
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
   ));
 }

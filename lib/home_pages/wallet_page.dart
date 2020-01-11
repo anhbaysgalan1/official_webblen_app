@@ -1,24 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:webblen/styles/fonts.dart';
-import 'package:webblen/styles/flat_colors.dart';
 import 'dart:async';
+
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webblen/firebase_data/reward_data.dart';
-import 'package:webblen/models/webblen_reward.dart';
 import 'package:webblen/firebase_data/transaction_data.dart';
+import 'package:webblen/firebase_data/user_data.dart';
+import 'package:webblen/models/webblen_reward.dart';
+import 'package:webblen/models/webblen_user.dart';
+import 'package:webblen/services_general/service_page_transitions.dart';
+import 'package:webblen/services_general/services_show_alert.dart';
+import 'package:webblen/styles/flat_colors.dart';
+import 'package:webblen/styles/fonts.dart';
+import 'package:webblen/utils/strings.dart';
+import 'package:webblen/widgets_common/common_progress.dart';
 import 'package:webblen/widgets_reward/reward_card.dart';
 import 'package:webblen/widgets_reward/reward_purchase.dart';
-import 'package:webblen/services_general/service_page_transitions.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webblen/services_general/services_show_alert.dart';
-import 'package:webblen/models/webblen_user.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:webblen/widgets_wallet/wallet_attendance_power_bar.dart';
-import 'package:webblen/firebase_data/user_data.dart';
-import 'package:webblen/widgets_common/common_progress.dart';
 
 class WalletPage extends StatefulWidget {
-
   final WebblenUser currentUser;
   final Key key;
   WalletPage({this.currentUser, this.key});
@@ -28,14 +30,12 @@ class WalletPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<WalletPage> {
-
   WebblenUser currentUser;
   List<WebblenReward> walletRewards = [];
   GlobalKey<FormState> paymentFormKey = new GlobalKey<FormState>();
   String formDepositName;
   WebblenReward redeemingReward;
   bool isLoadingRewards = true;
-
 
   Future<bool> showRewardDialog(BuildContext context, WebblenReward reward) {
     return showDialog<bool>(
@@ -53,7 +53,7 @@ class _WalletPageState extends State<WalletPage> {
         });
   }
 
-  void dismissPurchaseDialog(BuildContext context){
+  void dismissPurchaseDialog(BuildContext context) {
     Navigator.pop(context);
   }
 
@@ -66,19 +66,19 @@ class _WalletPageState extends State<WalletPage> {
             rewardTitle: reward.rewardProviderName,
             rewardDescription: reward.rewardDescription,
             rewardImageURL: reward.rewardImagePath,
-            rewardCost: reward.rewardCost.toStringAsFixed(2) ,
+            rewardCost: reward.rewardCost.toStringAsFixed(2),
             confirmAction: () => redeemReward(reward),
             cancelAction: () => dismissPurchaseDialog(context),
           );
         });
   }
 
-  redeemSuccessDialog(String header, String body){
+  redeemSuccessDialog(String header, String body) {
     Navigator.pop(context);
     ShowAlertDialogService().showSuccessDialog(context, header, body);
   }
 
-  redeemFailedDialog(String header, String body){
+  redeemFailedDialog(String header, String body) {
     Navigator.pop(context);
     ShowAlertDialogService().showFailureDialog(context, header, body);
   }
@@ -88,7 +88,7 @@ class _WalletPageState extends State<WalletPage> {
     setState(() {
       redeemingReward = reward;
     });
-    if (reward.rewardUrl.isEmpty){
+    if (reward.rewardUrl.isEmpty) {
       walletRewards.remove(reward);
       setState(() {});
       PageTransitionService(context: context, reward: redeemingReward, currentUser: widget.currentUser).transitionToRewardPayoutPage();
@@ -99,13 +99,15 @@ class _WalletPageState extends State<WalletPage> {
     }
   }
 
-  validatePaymentForm(){
+  validatePaymentForm() {
     final form = paymentFormKey.currentState;
     form.save();
     ShowAlertDialogService().showLoadingDialog(context);
-    if (formDepositName.isNotEmpty){
-      TransactionDataService().submitTransaction(widget.currentUser.uid, null, redeemingReward.rewardType, formDepositName, redeemingReward.rewardDescription).then((error){
-        if (error.isEmpty){
+    if (formDepositName.isNotEmpty) {
+      TransactionDataService()
+          .submitTransaction(widget.currentUser.uid, null, redeemingReward.rewardType, formDepositName, redeemingReward.rewardDescription)
+          .then((error) {
+        if (error.isEmpty) {
           redeemSuccessDialog("Payment Now Processing", "Please Allow 2-3 Days for Your Payment to be Deposited into Your Account");
         } else {
           redeemFailedDialog("Payment Failed", "There was an issue processing your payment, please try again");
@@ -116,15 +118,15 @@ class _WalletPageState extends State<WalletPage> {
     }
   }
 
-  Widget buildWalletRewards(){
-    if (walletRewards.isNotEmpty){
+  Widget buildWalletRewards() {
+    if (walletRewards.isNotEmpty) {
       return rewardsList(walletRewards);
     } else {
       return noRewardsList();
     }
   }
 
-  Widget rewardsList(List<WebblenReward> walletRewards)  {
+  Widget rewardsList(List<WebblenReward> walletRewards) {
     return Container(
       height: 115,
       child: GridView.count(
@@ -132,18 +134,14 @@ class _WalletPageState extends State<WalletPage> {
         scrollDirection: Axis.horizontal,
         children: new List<Widget>.generate(walletRewards.length, (index) {
           return GridTile(
-            child: RewardCard(
-                walletRewards[index],
-                    () => redeemRewardDialog(walletRewards[index]),
-                true
-            ),
+            child: RewardCard(walletRewards[index], () => redeemRewardDialog(walletRewards[index]), true),
           );
         }),
       ),
     );
   }
 
-  Widget noRewardsList()  {
+  Widget noRewardsList() {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -160,16 +158,16 @@ class _WalletPageState extends State<WalletPage> {
     isLoadingRewards = true;
     walletRewards = [];
     setState(() {});
-    UserDataService().getUserByID(currentUser.uid).then((result){
+    UserDataService().getUserByID(currentUser.uid).then((result) {
       currentUser = result;
-      if (currentUser.rewards.length > 0){
-        currentUser.rewards.forEach((reward){
+      if (currentUser.rewards.length > 0) {
+        currentUser.rewards.forEach((reward) {
           String rewardID = reward.toString();
-          RewardDataService().findRewardByID(rewardID).then((userReward){
-            if (userReward != null){
+          RewardDataService().findRewardByID(rewardID).then((userReward) {
+            if (userReward != null) {
               walletRewards.add(userReward);
-              if (reward == currentUser.rewards.last){
-                if (this.mounted){
+              if (reward == currentUser.rewards.last) {
+                if (this.mounted) {
                   isLoadingRewards = false;
                   setState(() {});
                 }
@@ -187,6 +185,7 @@ class _WalletPageState extends State<WalletPage> {
   @override
   void initState() {
     super.initState();
+    Admob.initialize(Strings.googleAdMobAppID);
     currentUser = widget.currentUser;
     loadRewards();
   }
@@ -216,102 +215,78 @@ class _WalletPageState extends State<WalletPage> {
                         data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                         child: Fonts().textW700('Wallet', 40, Colors.black, TextAlign.left),
                       ),
-
-                    GestureDetector(
-                        onTap: () => PageTransitionService(context: context, currentUser: currentUser).transitionToShopPage(),
-                        child:  Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(24.0),
-                            color: FlatColors.darkMountainGreen,
-                            child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(FontAwesomeIcons.shoppingCart, color: Colors.white, size: 14.0),
-                                    SizedBox(width: 8.0),
-                                    Fonts().textW600('Shop', 14.0, Colors.white, TextAlign.center),
-                                  ],
-                                )
+                      GestureDetector(
+                          onTap: () => PageTransitionService(context: context, currentUser: currentUser).transitionToShopPage(),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(24.0),
+                              color: FlatColors.darkMountainGreen,
+                              child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(FontAwesomeIcons.shoppingCart, color: Colors.white, size: 14.0),
+                                      SizedBox(width: 8.0),
+                                      Fonts().textW600('Shop', 14.0, Colors.white, TextAlign.center),
+                                    ],
+                                  )),
                             ),
-                          ),
-                        )
-                    ),
+                          )),
                     ],
                   ),
+                ),
+                AdmobBanner(
+                  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+                  adSize: AdmobBannerSize.BANNER,
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 16, top: 8, right: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Fonts().textW700(
-                          '${webblenBalance.toStringAsFixed(2)}',
-                          34,
-                          Colors.black,
-                          TextAlign.left
-                      ),
-                      Fonts().textW600(
-                          'Webblen Balance',
-                          18,
-                          Colors.black,
-                          TextAlign.left
-                      ),
+                      Fonts().textW700('${webblenBalance.toStringAsFixed(2)}', 34, Colors.black, TextAlign.left),
+                      Fonts().textW600('Webblen Balance', 18, Colors.black, TextAlign.left),
                       SizedBox(height: 4.0),
                       Fonts().textW400(
                           "Webblen are tokens that can be transferred or traded at anytime.  You need Webblen in order to create new events and communities.",
                           14,
                           Colors.black87,
-                          TextAlign.left
-                      ),
+                          TextAlign.left),
                       SizedBox(height: 24.0),
                       AttendancePowerBar(currentAP: ap, apLvl: apLvl),
                       SizedBox(height: 2.0),
-                      Fonts().textW600(
-                          "Attendance Power",
-                          18,
-                          Colors.black87,
-                          TextAlign.left
-                      ),
+                      Fonts().textW600("Attendance Power", 18, Colors.black87, TextAlign.left),
                       SizedBox(height: 4.0),
                       Fonts().textW400(
                           "A multiplier that increases the value of the events you attend. The higher your AP, the more your attendance is worth. Increase your AP by attending events regularly.",
                           14,
                           Colors.black87,
-                          TextAlign.left
-                      ),
+                          TextAlign.left),
                       SizedBox(height: 16.0),
                       Row(
                         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Fonts().textW700(
-                              'Rewards',
-                              28,
-                              Colors.black,
-                              TextAlign.center
-                          ),
+                          Fonts().textW700('Rewards', 28, Colors.black, TextAlign.center),
                           isLoadingRewards
                               ? Container()
-                                : Padding(
+                              : Padding(
                                   padding: EdgeInsets.only(top: 4.0),
                                   child: IconButton(
-                                    onPressed:  () => loadRewards(),
+                                    onPressed: () => loadRewards(),
                                     icon: Icon(FontAwesomeIcons.syncAlt, size: 16.0, color: Colors.black45),
                                   ),
                                 ),
                         ],
                       ),
                       //SizedBox(height: 8.0),
-                      isLoadingRewards
-                          ? Center(child: CustomCircleProgress(30.0, 30.0, 30.0, 30.0, Colors.black26))
-                          : buildWalletRewards()
+                      isLoadingRewards ? Center(child: CustomCircleProgress(30.0, 30.0, 30.0, 30.0, Colors.black26)) : buildWalletRewards()
                     ],
                   ),
                 ),
               ],
             );
-          }
-      ),
+          }),
     );
   }
 }
