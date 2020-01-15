@@ -366,69 +366,49 @@ class _LoginPageState extends State<LoginPage> {
     // );
 
     // **FACEBOOK BUTTON
-    final facebookButton = FacebookBtn(action: loginWithFacebook);
-    // final facebookButton = AuthBtn(
-    //   action: loginWithFacebook,
-    //   buttonText: 'Login with Facebook',
-    //   textColor: Colors.white,
-    //   icon: Icon(
-    //     FontAwesomeIcons.facebook,
-    //     color: Colors.white,
-    //     size: 18.0,
-    //   ),
-    //   color: Color.fromRGBO(59, 89, 152, 1.0),
-    // );
+    final facebookButton = AuthBtn(
+      action: loginWithFacebook,
+      buttonText: 'Login with Facebook',
+      textColor: Colors.white,
+      icon: Icon(
+        FontAwesomeIcons.facebook,
+        color: Colors.white,
+        size: 18.0,
+      ),
+      color: Color.fromRGBO(59, 89, 152, 1.0),
+    );
 
     // **GOOGLE BUTTON
-    final googleButton = GoogleBtn(action: loginWithGoogle);
-    // final googleButton = AuthBtn(
-    //   action: loginWithGoogle,
-    //   buttonText: 'Login with Google',
-    //   icon: Icon(
-    //     FontAwesomeIcons.google,
-    //     color: Colors.black,
-    //     size: 18.0,
-    //   ),
-    // );
+    final googleButton = AuthBtn(
+      action: loginWithGoogle,
+      buttonText: 'Login with Google',
+      icon: Icon(
+        FontAwesomeIcons.google,
+        color: Colors.black,
+        size: 18.0,
+      ),
+    );
 
     //**EMAIL/PHONE BUTTON
-    final signInWithEmailButton = CustomColorIconButton(
-      icon: Icon(FontAwesomeIcons.envelope, color: Colors.black, size: 18.0),
-      text: "Sign in With Email",
-      textColor: Colors.black,
-      backgroundColor: Colors.white,
-      height: 45.0,
-      width: MediaQuery.of(context).size.width * 0.85,
-      onPressed: () => setSignInWithEmailStatus(),
+    final signInWithEmailButton = AuthBtn(
+      action: () => setSignInWithEmailStatus(),
+      buttonText: 'Sign in With Email',
+      icon: Icon(
+        FontAwesomeIcons.envelope,
+        color: Colors.black,
+        size: 18.0,
+      ),
     );
-    // final signInWithEmailButton = AuthBtn(
-    //   action: () => setSignInWithEmailStatus(),
-    //   buttonText: 'Sign in With Email',
-    //   icon: Icon(
-    //     FontAwesomeIcons.envelope,
-    //     color: Colors.black,
-    //     size: 18.0,
-    //   ),
-    // );
 
-    final signInWithPhoneButton = CustomColorIconButton(
-      icon: Icon(FontAwesomeIcons.mobileAlt, color: Colors.black, size: 18.0),
-      text: "Sign in With Phone",
-      textColor: Colors.black,
-      backgroundColor: Colors.white,
-      height: 45.0,
-      width: MediaQuery.of(context).size.width * 0.85,
-      onPressed: () => setSignInWithEmailStatus(),
+    final signInWithPhoneButton = AuthBtn(
+      action: () => setSignInWithEmailStatus(),
+      buttonText: 'Sign in With Phone',
+      icon: Icon(
+        FontAwesomeIcons.mobileAlt,
+        color: Colors.black,
+        size: 18.0,
+      ),
     );
-    // final signInWithPhoneButton = AuthBtn(
-    //   action: () => setSignInWithEmailStatus(),
-    //   buttonText: 'Sign in With Phone',
-    //   icon: Icon(
-    //     FontAwesomeIcons.mobileAlt,
-    //     color: Colors.black,
-    //     size: 18.0,
-    //   ),
-    // );
 
     final orTextLabel = Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),

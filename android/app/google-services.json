@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "618036466482-gtdp7uf64k9c1up9h5cokecudq5vbp79.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webblen.events.webblen",
+            "certificate_hash": "c4566abfa817f140895052efe53d4bee06b8f96a"
+          }
+        },
+        {
           "client_id": "618036466482-o2sq1q1dlk6j3qlhss753arforith8is.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

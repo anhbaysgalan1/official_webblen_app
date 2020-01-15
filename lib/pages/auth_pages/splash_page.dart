@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:webblen/services_general/service_page_transitions.dart';
 import 'package:webblen/styles/fonts.dart';
@@ -70,10 +71,13 @@ class SplashPage extends StatelessWidget {
                               Container(
                                 width: 145,
                                 height: 100,
-                                child: Image.asset(
-                                  "assets/images/onboardingsvg1.png",
-                                  fit: BoxFit.none,
+                                child: SvgPicture.asset(
+                                  "assets/images/onboardingsvg1.svg",
                                 ),
+                                // child: Image.asset(
+                                //   "assets/images/onboardingsvg1.svg",
+                                //   fit: BoxFit.none,
+                                // ),
                               ),
                               Container(
                                 constraints: BoxConstraints(
@@ -83,7 +87,7 @@ class SplashPage extends StatelessWidget {
                                   data: MediaQuery.of(context).copyWith(
                                     textScaleFactor: 1.0,
                                   ),
-                                  child: Fonts().textW500(
+                                  child: Fonts().textW300(
                                     "Discover meetups and events happening in your community",
                                     14.0,
                                     Colors.black,
@@ -110,9 +114,8 @@ class SplashPage extends StatelessWidget {
                               Container(
                                 width: 145,
                                 height: 100,
-                                child: Image.asset(
-                                  "assets/images/onboardsvg3.png",
-                                  fit: BoxFit.none,
+                                child: SvgPicture.asset(
+                                  "assets/images/onboardingsvg3.svg",
                                 ),
                               ),
                               Container(
@@ -123,7 +126,7 @@ class SplashPage extends StatelessWidget {
                                   data: MediaQuery.of(context).copyWith(
                                     textScaleFactor: 1.0,
                                   ),
-                                  child: Fonts().textW500(
+                                  child: Fonts().textW300(
                                     "Know about the news happening in your area",
                                     14.0,
                                     Colors.black,
@@ -150,9 +153,8 @@ class SplashPage extends StatelessWidget {
                               Container(
                                 width: 145,
                                 height: 100,
-                                child: Image.asset(
-                                  "assets/images/onboardingsvg2.png",
-                                  fit: BoxFit.none,
+                                child: SvgPicture.asset(
+                                  "assets/images/onboardingsvg2.svg",
                                 ),
                               ),
                               Container(
@@ -163,7 +165,7 @@ class SplashPage extends StatelessWidget {
                                   data: MediaQuery.of(context).copyWith(
                                     textScaleFactor: 1.0,
                                   ),
-                                  child: Fonts().textW500(
+                                  child: Fonts().textW300(
                                     "Earn money and rewards for being involved and attending events",
                                     14.0,
                                     Colors.black,

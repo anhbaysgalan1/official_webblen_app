@@ -19,7 +19,7 @@ dependencies:
   cloud_functions: ^0.4.1+4
 
   #Social Dependencies
-  google_sign_in: ^4.0.11
+  google_sign_in: ^4.1.1
   flutter_facebook_login: ^3.0.0
 #  flutter_twitter_login:
 #      git: https://github.com/eudangeld/flutter_twitter_login.git
@@ -39,6 +39,7 @@ dependencies:
   image_cropper: ^1.1.0
   image_picker: ^0.6.1+11
   flutter_image_compress: ^0.6.3
+  flutter_svg: ^0.15.0
   
   #Video Dependencies
   youtube_player_flutter: ^6.0.3+2
